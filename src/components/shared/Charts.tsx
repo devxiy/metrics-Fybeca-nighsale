@@ -39,15 +39,15 @@ export const DonutChart: FC<DonutChartProps> = ({ data, title, icon: Icon, total
             <h3 className="font-semibold text-gray-800">{title}</h3>
         </div>
         <div className="w-full flex items-center justify-between">
-            <div className="w-32 h-32 relative">
+            <div className="w-56 h-56 relative">
                 <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                         <Pie
                             data={data}
                             cx="50%"
                             cy="50%"
-                            innerRadius={35}
-                            outerRadius={55}
+                            innerRadius={60}
+                            outerRadius={90}
                             paddingAngle={2}
                             dataKey="value"
                         >
@@ -59,8 +59,6 @@ export const DonutChart: FC<DonutChartProps> = ({ data, title, icon: Icon, total
                 </ResponsiveContainer>
             </div>
             <div className="flex-1 ml-4 min-w-0">
-                <div className="text-3xl font-bold text-gray-800 mb-1">{total}</div>
-                <div className="text-xs text-gray-500 mb-3">Total</div>
                 {data.map((item, idx) => (
                     <div key={idx} className="flex items-center text-xs mb-1">
                         <div className="w-3 h-3 rounded-full mr-2 flex-shrink-0" style={{ backgroundColor: COLORS[idx % COLORS.length] }}></div>
@@ -81,9 +79,10 @@ interface CustomBarChartProps {
     title: string;
     icon: ReactNode;
     color?: string;
+    yAxisWidth?: number;
 }
 
-export const CustomBarChart: FC<CustomBarChartProps> = ({ data, xKey, yKey, title, icon, color = "#00338D" }) => (
+export const CustomBarChart: FC<CustomBarChartProps> = ({ data, xKey, yKey, title, icon, color = "#00338D", yAxisWidth = 120 }) => (
     <div className="bg-white p-6 rounded-xl shadow-md h-full border border-gray-100">
         <div className="flex items-center mb-4">
             <div className="mr-3">
@@ -91,11 +90,11 @@ export const CustomBarChart: FC<CustomBarChartProps> = ({ data, xKey, yKey, titl
             </div>
             <h3 className="font-semibold text-gray-800">{title}</h3>
         </div>
-        <ResponsiveContainer width="100%" height={250}>
-            <RechartsBarChart data={data} layout="vertical" margin={{ top: 5, right: 40, left: 20, bottom: 5 }}>
+        <ResponsiveContainer width="100%" height={350}>
+            <RechartsBarChart data={data} layout="vertical" margin={{ top: 5, right: 40, left: 10, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" horizontal={false} />
                 <XAxis type="number" hide />
-                <YAxis dataKey={yKey} type="category" width={100} tick={{ fontSize: 11 }} />
+                <YAxis dataKey={yKey} type="category" width={yAxisWidth} tick={{ fontSize: 10, width: yAxisWidth }} interval={0} />
                 <Tooltip cursor={{ fill: 'transparent' }} />
                 <Bar dataKey={xKey} fill={color} radius={[0, 4, 4, 0]}>
                     <LabelList
